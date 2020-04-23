@@ -58,7 +58,7 @@ class PostType extends AbstractType
 
         $builder->get('category')->addEventListener(FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
-                $category = $event->getData();
+                $category = $event->getForm()->getData();
                 $formModifier($event->getForm()->getParent(), $category);
             }
         );
