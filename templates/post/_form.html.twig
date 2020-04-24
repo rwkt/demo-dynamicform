@@ -14,21 +14,38 @@
         src="https://code.jquery.com/jquery-3.5.0.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
         crossorigin="anonymous"></script>
-<script>
+
+{#
+    The following only works if subcategory is not an EntityType
+#}
+{#<script>
     var $category = $('#post_category');
     $category.change(function() {
         var $form = $(this).closest('form');
+        var data = $form.serializeArray();
+        $.post($form.attr('action'), data).then(function (response){
+            $('#post_subcategory').replaceWith(
+                $(response).find('#post_subcategory')
+            );
+        });
+    });
+</script>#}
+
+{#
+    The following works but you have to send in 'data' each individual required field (you don't have to for 'new')
+#}
+<script>
+    var $postCategory = $('#post_category');
+    var $postTitle = $('#post_title');
+    $postCategory.change(function() {
+        var $form = $(this).closest('form');
         var data = {};
-        data[$category.attr('name')] = $category.val();
-        $.ajax({
-            url : $form.attr('action'),
-            type: $form.attr('method'),
-            data : data,
-            success: function(html) {
-                $('#post_subcategory').replaceWith(
-                    $(html).find('#post_subcategory')
-                );
-            }
+        data[$postCategory.attr('name')] = $postCategory.val();
+        data[$postTitle.attr('name')] = $postTitle.val();
+        $.post($form.attr('action'), data).then(function (response){
+            $('#post_subcategory').replaceWith(
+                $(response).find('#post_subcategory')
+            );
         });
     });
 </script>

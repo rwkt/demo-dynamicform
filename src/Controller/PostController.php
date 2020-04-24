@@ -31,7 +31,9 @@ class PostController extends AbstractController
     public function new(Request $request): Response
     {
         $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class, $post, [
+            'action' => $this->generateUrl('post_new'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,11 +68,11 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post): Response
     {
-        /*if ($request->isMethod('POST')) {
-            dd($post);
-            exit;
-        }*/
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class, $post, [
+            'action' => $this->generateUrl('post_edit', [
+                'id' => $post->getId(),
+            ]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
