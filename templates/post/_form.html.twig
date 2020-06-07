@@ -1,17 +1,15 @@
 {{ form_start(form) }}
-    {{ form_errors(form) }}
-
     {{ form_label(form.title) }}
     {{ form_widget(form.title) }}
-
+<br />
     {{ form_label(form.category) }}
     {{ form_widget(form.category, {
         'attr': {
             'class': 'form-control js-replaceFormField',
-            'data-replaceFormFields': '#post_subcategory, #post_rating'
+            'data-replaceFormFields': '#post_subcategory,#post_rating'
         }
     })}}
-
+<br />
     {{ form_label(form.subcategory) }}
     {{ form_widget(form.subcategory, {
         'attr': {
@@ -19,7 +17,7 @@
             'data-replaceFormFields': '#post_rating'
         }
     })}}
-
+<br />
 {% if form.rating is defined %}
     {{ form_label(form.rating) }}
     {{ form_widget(form.rating) }}
