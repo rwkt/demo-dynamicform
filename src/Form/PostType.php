@@ -57,6 +57,7 @@ class PostType extends AbstractType
             $category = $post->getCategory();
         }
 
+        $choices = [];
         switch ($category) {
             case 'Games':
                 $choices = [
@@ -74,12 +75,6 @@ class PostType extends AbstractType
                     ]
                 ];
                 break;
-            default:
-                $choices = [
-                    'choices' => [
-                        'None' => 'None'
-                    ]
-                ];
         }
 
         $options = array_merge($options, $choices);
