@@ -37,9 +37,6 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setCategory($form->get('category')->getData());
-            $post->setSubcategory($form->get('subcategory')->getData());
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();

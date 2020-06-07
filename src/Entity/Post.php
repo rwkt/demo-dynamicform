@@ -31,6 +31,11 @@ class Post
      */
     private $subcategory;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $rating;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Post
     public function setSubcategory(string $subcategory): self
     {
         $this->subcategory = $subcategory;
+
+        return $this;
+    }
+
+    public function getRating(): ?string
+    {
+        return $this->rating;
+    }
+
+    public function setRating(string $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }

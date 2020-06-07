@@ -1,12 +1,29 @@
 {{ form_start(form) }}
+    {{ form_errors(form) }}
+
     {{ form_label(form.title) }}
     {{ form_widget(form.title) }}
 
     {{ form_label(form.category) }}
-    {{ form_widget(form.category) }}
+    {{ form_widget(form.category, {
+        'attr': {
+            'class': 'form-control js-replaceFormField',
+            'data-replaceFormFields': '#post_subcategory, #post_rating'
+        }
+    })}}
 
     {{ form_label(form.subcategory) }}
-    {{ form_widget(form.subcategory) }}
+    {{ form_widget(form.subcategory, {
+        'attr': {
+            'class': 'form-control js-replaceFormField',
+            'data-replaceFormFields': '#post_rating'
+        }
+    })}}
+
+{% if form.rating is defined %}
+    {{ form_label(form.rating) }}
+    {{ form_widget(form.rating) }}
+{% endif %}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 
@@ -15,37 +32,24 @@
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
         crossorigin="anonymous"></script>
 
-{#
-    The following only works if subcategory is not an EntityType
-#}
-{#<script>
-    var $category = $('#post_category');
-    $category.change(function() {
-        var $form = $(this).closest('form');
-        var data = $form.serializeArray();
-        $.post($form.attr('action'), data).then(function (response){
-            $('#post_subcategory').replaceWith(
-                $(response).find('#post_subcategory')
-            );
-        });
-    });
-</script>#}
-
-{#
-    The following works but you have to send in 'data' each individual required field (you don't have to for 'new')
-#}
 <script>
-    var $postCategory = $('#post_category');
-    var $postTitle = $('#post_title');
-    $postCategory.change(function() {
-        var $form = $(this).closest('form');
-        var data = {};
-        data[$postCategory.attr('name')] = $postCategory.val();
-        data[$postTitle.attr('name')] = $postTitle.val();
-        $.post($form.attr('action'), data).then(function (response){
-            $('#post_subcategory').replaceWith(
-                $(response).find('#post_subcategory')
-            );
-        });
+    $("form").on("change", ".js-replaceFormField", (e) => {
+        replaceFormFields(`#${e.target.id}`, e.target.getAttribute('data-replaceFormFields').split(','))
     });
+
+    function replaceFormFields(source, destinations) {
+        var $form = $(source).closest('form');
+        var data = $form.serializeArray();
+        data.pop(); // prevent triggering $form->IsValid() by removing token field (last index)
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: data,
+            success: function (html) {
+                destinations.forEach(destination => {
+                    $(destination).replaceWith($(html).find(destination));
+                });
+            }
+        });
+    }
 </script>
