@@ -2,47 +2,6 @@
     {{ form_label(form.title) }}
     {{ form_widget(form.title) }}
     {{ form_errors(form.title) }}
-<br />
-    {{ form_label(form.hasRating) }}
-    {{ form_widget(form.hasRating, {
-        'attr': {
-            'class': 'form-control js-replaceFormField',
-            'data-replaceFormFields': '#post_rating'
-        }
-    })}}
-    {{ form_errors(form.hasRating)}}
-<br />
-{% if form.rating is defined %}
-    {{ form_label(form.rating) }}
-    {{ form_widget(form.rating) }}
-    {{ form_errors(form.rating) }}
-    <br />
-{% endif %}
-<button class="btn">{{ button_label|default('Save') }}</button>
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-
-<script src="https://code.jquery.com/jquery-3.5.0.min.js"
-        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
-        crossorigin="anonymous"></script>
-
-<script>
-    $("form").on("change", ".js-replaceFormField", (e) => {
-        replaceFormFields(`#${e.target.id}`, e.target.getAttribute('data-replaceFormFields').split(','))
-    });
-
-    function replaceFormFields(source, destinations) {
-        var $form = $(source).closest('form');
-        var data = $form.serializeArray();
-        data.pop(); // prevent triggering $form->IsValid() by removing token field (last index)
-        $.ajax({
-            url: $form.attr('action'),
-            type: $form.attr('method'),
-            data: data,
-            success: function (html) {
-                destinations.forEach(destination => {
-                    $(destination).replaceWith($(html).find(destination));
-                });
-            }
-        });
-    }
-</script>

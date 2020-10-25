@@ -24,19 +24,6 @@ class Post
      */
     private $title;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $hasRating;
-
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\NotBlank(message="Rating must be 0 or more.")
-     * @Assert\PositiveOrZero(message="Rating must be 0 or more.")
-     */
-    private $rating;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -50,30 +37,6 @@ class Post
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getHasRating(): ?bool
-    {
-        return $this->hasRating;
-    }
-
-    public function setHasRating(bool $hasRating): self
-    {
-        $this->hasRating = $hasRating;
-
-        return $this;
-    }
-
-    public function getRating(): ?int
-    {
-        return $this->rating;
-    }
-
-    public function setRating(int $rating): self
-    {
-        $this->rating = $rating;
 
         return $this;
     }
