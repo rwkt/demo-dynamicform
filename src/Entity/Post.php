@@ -19,8 +19,6 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
-     * @Assert\NotBlank(message="Title must not be blank.")
      */
     private $title;
 
