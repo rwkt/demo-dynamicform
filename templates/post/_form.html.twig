@@ -1,32 +1,27 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_label(form.title) }}
     {{ form_widget(form.title) }}
+    {{ form_errors(form.title) }}
 <br />
-    {{ form_label(form.category) }}
-    {{ form_widget(form.category, {
-        'attr': {
-            'class': 'form-control js-replaceFormField',
-            'data-replaceFormFields': '#post_subcategory,#post_rating'
-        }
-    })}}
-<br />
-    {{ form_label(form.subcategory) }}
-    {{ form_widget(form.subcategory, {
+    {{ form_label(form.hasRating) }}
+    {{ form_widget(form.hasRating, {
         'attr': {
             'class': 'form-control js-replaceFormField',
             'data-replaceFormFields': '#post_rating'
         }
     })}}
+    {{ form_errors(form.hasRating)}}
 <br />
 {% if form.rating is defined %}
     {{ form_label(form.rating) }}
     {{ form_widget(form.rating) }}
+    {{ form_errors(form.rating) }}
+    <br />
 {% endif %}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 
-<script
-        src="https://code.jquery.com/jquery-3.5.0.min.js"
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
         crossorigin="anonymous"></script>
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -18,21 +19,21 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Title must not be blank.")
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
-    private $category;
+    private $hasRating;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $subcategory;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank(message="Rating must be 0 or more.")
+     * @Assert\PositiveOrZero(message="Rating must be 0 or more.")
      */
     private $rating;
 
@@ -53,36 +54,24 @@ class Post
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getHasRating(): ?bool
     {
-        return $this->category;
+        return $this->hasRating;
     }
 
-    public function setCategory(string $category): self
+    public function setHasRating(bool $hasRating): self
     {
-        $this->category = $category;
+        $this->hasRating = $hasRating;
 
         return $this;
     }
 
-    public function getSubcategory(): ?string
-    {
-        return $this->subcategory;
-    }
-
-    public function setSubcategory(string $subcategory): self
-    {
-        $this->subcategory = $subcategory;
-
-        return $this;
-    }
-
-    public function getRating(): ?string
+    public function getRating(): ?int
     {
         return $this->rating;
     }
 
-    public function setRating(string $rating): self
+    public function setRating(int $rating): self
     {
         $this->rating = $rating;
 
